@@ -33,69 +33,69 @@ for day in daterange(start_date, end_date):
     recent_data['carbohydrates'].append(day_data.totals.get('carbohydrates', 0))
     recent_data['protein'].append(day_data.totals.get('protein', 0))
     recent_data['fat'].append(day_data.totals.get('fat', 0))
+
+    breakfastEntries = []
+
+    for entry in day_data.meals[0]:
+        data = {
+            'name': entry.name,
+            'totals': entry.totals
+        }
+        breakfastEntries.append(data)
+
+    lunchEntries = []
+
+    for entry in day_data.meals[1]:
+        data = {
+            'name': entry.name,
+            'totals': entry.totals
+        }
+        lunchEntries.append(data)
+
+    dinnerEntries = []
+
+    for entry in day_data.meals[2]:
+        data = {
+            'name': entry.name,
+            'totals': entry.totals
+        }
+        dinnerEntries.append(data)
+
+
+    snackEntries = []
+
+    for entry in day_data.meals[3]:
+        data = {
+            'name': entry.name,
+            'totals': entry.totals
+        }
+        snackEntries.append(data)
+
+    data = {
+        'timestamp': datetime.combine(day_data.date, datetime.min.time()),
+        'date': day_data.date.strftime('%b %e'),
+        'totals': day_data.totals,
+        'breakfast': {
+            'entries': breakfastEntries,
+            'totals': day_data.meals[0].totals
+        },
+        'lunch': {
+            'entries': lunchEntries,
+            'totals': day_data.meals[1].totals
+        },
+        'dinner': {
+            'entries': dinnerEntries,
+            'totals': day_data.meals[2].totals
+        },
+        'snack': {
+            'entries': snackEntries,
+            'totals': day_data.meals[3].totals
+        }
+    }
+
+    db.collection('nutrition').document(day_data.date.strftime('%b%e%y')).set(data)
    
 
 db.collection('recent').document('totals').set(recent_data)
 
-today = client.get_date(date.today())
 
-breakfastEntries = []
-
-for entry in today.meals[0]:
-    data = {
-        'name': entry.name,
-        'totals': entry.totals
-    }
-    breakfastEntries.append(data)
-
-lunchEntries = []
-
-for entry in today.meals[1]:
-    data = {
-        'name': entry.name,
-        'totals': entry.totals
-    }
-    lunchEntries.append(data)
-
-dinnerEntries = []
-
-for entry in today.meals[2]:
-    data = {
-        'name': entry.name,
-        'totals': entry.totals
-    }
-    dinnerEntries.append(data)
-
-
-snackEntries = []
-
-for entry in today.meals[3]:
-    data = {
-        'name': entry.name,
-        'totals': entry.totals
-    }
-    snackEntries.append(data)
-
-data = {
-    'timestamp': datetime.combine(date.today(), datetime.min.time()),
-    'date': date.today().strftime("%b %d"),
-    'totals': today.totals,
-    'breakfast': {
-        'entries': breakfastEntries,
-        'totals': today.meals[0].totals
-    },
-    'lunch': {
-        'entries': lunchEntries,
-        'totals': today.meals[1].totals
-    },
-    'dinner': {
-        'entries': dinnerEntries,
-        'totals': today.meals[2].totals
-    },
-    'snack': {
-        'entries': snackEntries,
-        'totals': today.meals[3].totals
-    }
-}
-
-db.collection('nutrition').document(date.today().strftime("%B%d%Y")).set(data)
