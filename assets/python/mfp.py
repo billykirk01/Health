@@ -98,4 +98,16 @@ for day in daterange(start_date, end_date):
 
 db.collection('recent').document('totals').set(recent_data)
 
+weight_data = client.get_measurements('Weight')
+
+weight_data_obj = {
+    'dates': [],
+    'weights': []
+}
+
+for date,weight in weight_data.items():
+    weight_data_obj['dates'].insert(0, date.strftime('%b %e'))
+    weight_data_obj['weights'].insert(0, weight)
+
+db.collection('weight').document('totals').set(weight_data_obj)
 
