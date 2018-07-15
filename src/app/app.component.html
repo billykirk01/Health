@@ -5,7 +5,7 @@
 <div class="uk-grid-small uk-child-width-expand@s uk-grid">
     <div [ngClass]="{'uk-width-1-2': !onMobile}">
         <div class="uk-margin-small-top" [ngClass]="{'uk-margin-small-left': !onMobile}">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover table-top-padding">
+            <div class="uk-card uk-card-default uk-card-body uk-card-hover table-top-padding weight-graph-small-padding-bottom">
                 <h3 class="uk-card-title uk-margin-small-bottom uk-margin-remove-top">Macronutrition</h3>
                 <table class="uk-table uk-table-striped uk-margin-remove-top table-bottom-margin">
                     <thead>
@@ -200,6 +200,10 @@
                         </div>
                     </li>
                 </ul>
+            </div>
+            <div class="uk-card uk-card-default uk-card-body uk-card-hover uk-margin-small-top weight-graph-small-padding-bottom">
+                <h3 class="uk-card-title uk-margin-bottom uk-margin-remove-top">Weight</h3>
+                <canvas #canvasTwo>{{ chartOne }}</canvas>
             </div>
         </div>
     </div>

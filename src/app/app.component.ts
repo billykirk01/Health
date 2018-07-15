@@ -29,6 +29,9 @@ export class AppComponent {
   private recentDoc: AngularFirestoreDocument<any>;
   recent: Observable<any>;
 
+  private weightDoc: AngularFirestoreDocument<any>;
+  weight: Observable<any>;
+
   currentDay: any;
   currentDayIndex: number = 0;
 
@@ -88,27 +91,26 @@ export class AppComponent {
             yAxisID: 'y-axis-2',
             data: ary.fat
           }
-        ]
+          ]
         },
         options: {
           scales: {
             yAxes: [{
               id: 'y-axis-1',
-							display: true,
-							position: 'left',
+              display: true,
+              position: 'left',
               beginAtZero: false,
-              suggestedMin: 1700,
               gridLines: {
                 display: false
               }
-						}, {
+            }, {
               id: 'y-axis-2',
               display: true,
               position: 'right',
               gridLines: {
                 display: false
               }
-						}]
+            }]
           },
           legend: {
             display: false
@@ -118,7 +120,7 @@ export class AppComponent {
 
       this.testIndex = new Subject()
 
-      this.days.subscribe(ary =>{
+      this.days.subscribe(ary => {
         this.currentDay = ary[0]
         this.testIndex.subscribe(val => {
           this.currentDay = ary[val]
@@ -127,22 +129,67 @@ export class AppComponent {
 
     })
 
+    this.weightDoc = this.db.doc<any>('weight/totals');
+    this.weight = this.weightDoc.valueChanges();
+    this.weight.subscribe(ary => {
+      this.chartOne = new Chart(this.canvasTwo.nativeElement.getContext('2d'), {
+        type: 'line',
+        data: {
+          labels: ary.dates,
+          datasets: [{
+            label: 'Weight',
+            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+            borderColor: 'rgba(153, 102, 255, 1)',
+            borderWidth: 1,
+            data: ary.weights
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              display: true,
+              position: 'left',
+              beginAtZero: false,
+              suggestedMin: 180,
+              gridLines: {
+                display: false
+              }
+            }],
+            xAxes: [{
+              display: true,
+              ticks: {
+                // remove label from axis
+                callback: function(value, index, values) {
+                    return null;
+                }
+            }
+            }]
+          },
+          legend: {
+            display: false
+          }
+        }
+      });
+
+    })
+
+
     this.days = this.db.collection('nutrition', ref => ref.orderBy('date', 'desc').limit(5)).valueChanges()
 
   }
 
-  decrementCurrentDay(){
-    
-    if (this.currentDayIndex < 4){
+  decrementCurrentDay() {
+
+    if (this.currentDayIndex < 4) {
       this.currentDayIndex = this.currentDayIndex + 1
       console.log(this.currentDayIndex)
       this.testIndex.next(this.currentDayIndex)
     }
   }
 
-  incrementCurrentDay(){
+  incrementCurrentDay() {
     console.log(this.currentDayIndex)
-    if (this.currentDayIndex > 0){
+    if (this.currentDayIndex > 0) {
       this.currentDayIndex = this.currentDayIndex - 1
       this.testIndex.next(this.currentDayIndex)
     }
