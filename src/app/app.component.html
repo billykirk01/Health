@@ -1,0 +1,202 @@
+<!-- <div *ngIf="!doneFetching" class="loading-spinner-div">
+    <mat-spinner diameter="100" class="spinner"></mat-spinner>
+</div> -->
+
+<div class="uk-grid-small uk-child-width-expand@s uk-grid">
+    <div [ngClass]="{'uk-width-1-2': !onMobile}">
+        <div class="uk-margin-small-top" [ngClass]="{'uk-margin-small-left': !onMobile}">
+            <div class="uk-card uk-card-default uk-card-body uk-card-hover table-top-padding">
+                <h3 class="uk-card-title uk-margin-small-bottom uk-margin-remove-top">Macronutrition</h3>
+                <table class="uk-table uk-table-striped uk-margin-remove-top table-bottom-margin">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th *ngIf="!onMobile">Calories</th>
+                            <th *ngIf="!onMobile">Carbs</th>
+                            <th *ngIf="!onMobile">Protein</th>
+                            <th *ngIf="!onMobile">Fat</th>
+                            <th *ngIf="onMobile">Cal</th>
+                            <th *ngIf="onMobile">Carb</th>
+                            <th *ngIf="onMobile">Prot</th>
+                            <th *ngIf="onMobile">Fat</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let day of days | async">
+                            <td>{{ day.date }}</td>
+                            <td *ngIf="day.totals.calories != null">{{ day.totals.calories }}</td>
+                            <td *ngIf="day.totals.calories == null">0</td>
+                            <td *ngIf="day.totals.carbohydrates != null">{{ day.totals.carbohydrates }}</td>
+                            <td *ngIf="day.totals.carbohydrates == null">0</td>
+                            <td *ngIf="day.totals.protein != null">{{ day.totals.protein }}</td>
+                            <td *ngIf="day.totals.protein == null">0</td>
+                            <td *ngIf="day.totals.fat != null">{{ day.totals.fat }}</td>
+                            <td *ngIf="day.totals.fat == null">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <canvas #canvasOne>{{ chartOne }}</canvas>
+            </div>
+        </div>
+    </div>
+
+    <div [ngClass]="{'uk-width-1-2': !onMobile}">
+        <div class="uk-margin-small-top" [ngClass]="{'uk-margin-small-right': !onMobile}">
+            <div class="uk-card uk-card-default uk-card-body uk-card-hover table-top-padding">
+                <div uk-grid class="uk-margin-bottom">
+                    <div class="uk-width-1-2">
+                        <h3 class="uk-card-title uk-margin-small-bottom uk-margin-remove-top">Meals</h3>
+                    </div>
+                    <div *ngIf="currentDay" class="uk-width-1-2">
+                        <div class="uk-align-right">
+                            <ul class="uk-pagination">
+                                <li>
+                                    <a (click)="decrementCurrentDay()">
+                                        <span class="uk-margin-small-right" uk-pagination-previous></span>
+                                    </a>
+                                </li>
+                                <li>{{ currentDay.date }}</li>
+                                <li>
+                                    <a  (click)="incrementCurrentDay()">
+                                        <span class="uk-margin-small-left" uk-pagination-next></span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <ul uk-accordion="multiple: true">
+                    <li>
+                        <a class="uk-accordion-title" href="#">Breakfast</a>
+                        <div class="uk-accordion-content">
+                            <div *ngIf="currentDay">
+                                <table *ngIf="currentDay.breakfast.entries.length > 0" class="uk-table uk-table-striped uk-margin-remove-top table-bottom-margin">
+                                    <thead>
+                                        <tr>
+                                            <th>Meal</th>
+                                            <th>Cal</th>
+                                            <th>Carb</th>
+                                            <th>Prot</th>
+                                            <th>Fat</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let meal of currentDay.breakfast.entries">
+                                            <td>{{ meal.name }}</td>
+                                            <td *ngIf="meal.totals.calories != null">{{ meal.totals.calories }}</td>
+                                            <td *ngIf="meal.totals.calories == null">0</td>
+                                            <td *ngIf="meal.totals.carbohydrates != null">{{ meal.totals.carbohydrates }}</td>
+                                            <td *ngIf="meal.totals.carbohydrates == null">0</td>
+                                            <td *ngIf="meal.totals.protein != null">{{ meal.totals.protein }}</td>
+                                            <td *ngIf="meal.totals.protein == null">0</td>
+                                            <td *ngIf="meal.totals.fat != null">{{ meal.totals.fat }}</td>
+                                            <td *ngIf="meal.totals.fat == null">0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p *ngIf="currentDay.breakfast.entries.length == 0">No entries</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="uk-accordion-title" href="#">Lunch</a>
+                        <div class="uk-accordion-content">
+                            <div *ngIf="currentDay">
+                                <table *ngIf="currentDay.lunch.entries.length > 0" class="uk-table uk-table-striped uk-margin-remove-top table-bottom-margin">
+                                    <thead>
+                                        <tr>
+                                            <th>Meal</th>
+                                            <th>Cal</th>
+                                            <th>Carb</th>
+                                            <th>Prot</th>
+                                            <th>Fat</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let meal of currentDay.lunch.entries">
+                                            <td>{{ meal.name }}</td>
+                                            <td *ngIf="meal.totals.calories != null">{{ meal.totals.calories }}</td>
+                                            <td *ngIf="meal.totals.calories == null">0</td>
+                                            <td *ngIf="meal.totals.carbohydrates != null">{{ meal.totals.carbohydrates }}</td>
+                                            <td *ngIf="meal.totals.carbohydrates == null">0</td>
+                                            <td *ngIf="meal.totals.protein != null">{{ meal.totals.protein }}</td>
+                                            <td *ngIf="meal.totals.protein == null">0</td>
+                                            <td *ngIf="meal.totals.fat != null">{{ meal.totals.fat }}</td>
+                                            <td *ngIf="meal.totals.fat == null">0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p *ngIf="currentDay.lunch.entries.length == 0">No entries</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="uk-accordion-title" href="#">Dinner</a>
+                        <div class="uk-accordion-content">
+                            <div *ngIf="currentDay">
+                                <table *ngIf="currentDay.dinner.entries.length > 0" class="uk-table uk-table-striped uk-margin-remove-top table-bottom-margin">
+                                    <thead>
+                                        <tr>
+                                            <th>Meal</th>
+                                            <th>Cal</th>
+                                            <th>Carb</th>
+                                            <th>Prot</th>
+                                            <th>Fat</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let meal of currentDay.dinner.entries">
+                                            <td>{{ meal.name }}</td>
+                                            <td *ngIf="meal.totals.calories != null">{{ meal.totals.calories }}</td>
+                                            <td *ngIf="meal.totals.calories == null">0</td>
+                                            <td *ngIf="meal.totals.carbohydrates != null">{{ meal.totals.carbohydrates }}</td>
+                                            <td *ngIf="meal.totals.carbohydrates == null">0</td>
+                                            <td *ngIf="meal.totals.protein != null">{{ meal.totals.protein }}</td>
+                                            <td *ngIf="meal.totals.protein == null">0</td>
+                                            <td *ngIf="meal.totals.fat != null">{{ meal.totals.fat }}</td>
+                                            <td *ngIf="meal.totals.fat == null">0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p *ngIf="currentDay.dinner.entries.length == 0">No entries</p>
+                            </div>
+                        </div>
+                    </li>
+                    <li>
+                        <a class="uk-accordion-title" href="#">Snacks</a>
+                        <div class="uk-accordion-content">
+                            <div *ngIf="currentDay">
+                                <table *ngIf="currentDay.snack.entries.length > 0" class="uk-table uk-table-striped uk-margin-remove-top table-bottom-margin">
+                                    <thead>
+                                        <tr>
+                                            <th>Meal</th>
+                                            <th>Cal</th>
+                                            <th>Carb</th>
+                                            <th>Prot</th>
+                                            <th>Fat</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let meal of currentDay.snack.entries">
+                                            <td>{{ meal.name }}</td>
+                                            <td *ngIf="meal.totals.calories != null">{{ meal.totals.calories }}</td>
+                                            <td *ngIf="meal.totals.calories == null">0</td>
+                                            <td *ngIf="meal.totals.carbohydrates != null">{{ meal.totals.carbohydrates }}</td>
+                                            <td *ngIf="meal.totals.carbohydrates == null">0</td>
+                                            <td *ngIf="meal.totals.protein != null">{{ meal.totals.protein }}</td>
+                                            <td *ngIf="meal.totals.protein == null">0</td>
+                                            <td *ngIf="meal.totals.fat != null">{{ meal.totals.fat }}</td>
+                                            <td *ngIf="meal.totals.fat == null">0</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <p *ngIf="currentDay.snack.entries.length == 0">No entries</p>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
