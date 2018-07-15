@@ -42,7 +42,7 @@
 
     <div [ngClass]="{'uk-width-1-2': !onMobile}">
         <div class="uk-margin-small-top" [ngClass]="{'uk-margin-small-right': !onMobile}">
-            <div class="uk-card uk-card-default uk-card-body uk-card-hover table-top-padding">
+            <div *ngIf="currentDay" class="uk-card uk-card-default uk-card-body uk-card-hover table-top-padding">
                 <div uk-grid class="uk-margin-bottom">
                     <div class="uk-width-1-2">
                         <h3 class="uk-card-title uk-margin-small-bottom uk-margin-remove-top">Meals</h3>
@@ -57,7 +57,7 @@
                                 </li>
                                 <li>{{ currentDay.date }}</li>
                                 <li>
-                                    <a  (click)="incrementCurrentDay()">
+                                    <a (click)="incrementCurrentDay()">
                                         <span class="uk-margin-small-left" uk-pagination-next></span>
                                     </a>
                                 </li>
@@ -68,7 +68,8 @@
 
                 <ul uk-accordion="multiple: true">
                     <li>
-                        <a class="uk-accordion-title" href="#">Breakfast</a>
+                        <a *ngIf="currentDay.breakfast.totals.calories == null" class="uk-accordion-title" href="#">Breakfast</a>
+                        <a *ngIf="currentDay.breakfast.totals.calories != null" class="uk-accordion-title" href="#">Breakfast ({{ currentDay.breakfast.totals.calories }} cal)</a>
                         <div class="uk-accordion-content">
                             <div *ngIf="currentDay">
                                 <table *ngIf="currentDay.breakfast.entries.length > 0" class="uk-table uk-table-striped uk-margin-remove-top table-bottom-margin">
@@ -100,7 +101,8 @@
                         </div>
                     </li>
                     <li>
-                        <a class="uk-accordion-title" href="#">Lunch</a>
+                        <a *ngIf="currentDay.lunch.totals.calories == null" class="uk-accordion-title" href="#">Lunch</a>
+                        <a *ngIf="currentDay.lunch.totals.calories != null" class="uk-accordion-title" href="#">Lunch ({{ currentDay.lunch.totals.calories }} cal)</a>
                         <div class="uk-accordion-content">
                             <div *ngIf="currentDay">
                                 <table *ngIf="currentDay.lunch.entries.length > 0" class="uk-table uk-table-striped uk-margin-remove-top table-bottom-margin">
@@ -132,7 +134,8 @@
                         </div>
                     </li>
                     <li>
-                        <a class="uk-accordion-title" href="#">Dinner</a>
+                        <a *ngIf="currentDay.dinner.totals.calories == null" class="uk-accordion-title" href="#">Dinner</a>
+                        <a *ngIf="currentDay.dinner.totals.calories != null" class="uk-accordion-title" href="#">Dinner ({{ currentDay.dinner.totals.calories }} cal)</a>
                         <div class="uk-accordion-content">
                             <div *ngIf="currentDay">
                                 <table *ngIf="currentDay.dinner.entries.length > 0" class="uk-table uk-table-striped uk-margin-remove-top table-bottom-margin">
@@ -164,7 +167,8 @@
                         </div>
                     </li>
                     <li>
-                        <a class="uk-accordion-title" href="#">Snacks</a>
+                        <a *ngIf="currentDay.snack.totals.calories == null" class="uk-accordion-title" href="#">Snacks</a>
+                        <a *ngIf="currentDay.snack.totals.calories != null" class="uk-accordion-title" href="#">Snacks ({{ currentDay.snack.totals.calories }} cal)</a>
                         <div class="uk-accordion-content">
                             <div *ngIf="currentDay">
                                 <table *ngIf="currentDay.snack.entries.length > 0" class="uk-table uk-table-striped uk-margin-remove-top table-bottom-margin">

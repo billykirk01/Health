@@ -28,11 +28,11 @@ recent_data = {
 
 for day in daterange(start_date, end_date):
     day_data = client.get_date(day)
-    recent_data['dates'].insert(0, day_data.date.strftime('%b %e'))
-    recent_data['calories'].insert(0, day_data.totals.get('calories', 0))
-    recent_data['carbohydrates'].insert(0, day_data.totals.get('carbohydrates', 0))
-    recent_data['protein'].insert(0, day_data.totals.get('protein', 0))
-    recent_data['fat'].insert(0, day_data.totals.get('fat', 0))
+    recent_data['dates'].append(day_data.date.strftime('%b %e'))
+    recent_data['calories'].append(day_data.totals.get('calories', 0))
+    recent_data['carbohydrates'].append(day_data.totals.get('carbohydrates', 0))
+    recent_data['protein'].append(day_data.totals.get('protein', 0))
+    recent_data['fat'].append(day_data.totals.get('fat', 0))
    
 
 db.collection('recent').document('totals').set(recent_data)
@@ -78,7 +78,7 @@ for entry in today.meals[3]:
 
 data = {
     'timestamp': datetime.combine(date.today(), datetime.min.time()),
-    'date': date.today().strftime("%B %d"),
+    'date': date.today().strftime("%b %d"),
     'totals': today.totals,
     'breakfast': {
         'entries': breakfastEntries,
