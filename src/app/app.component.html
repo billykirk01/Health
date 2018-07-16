@@ -6,7 +6,16 @@
     <div [ngClass]="{'uk-width-1-2': !onMobile}">
         <div class="uk-margin-small-top" [ngClass]="{'uk-margin-small-left': !onMobile}">
             <div class="uk-card uk-card-default uk-card-body uk-card-hover table-top-padding weight-graph-small-padding-bottom">
-                <h3 class="uk-card-title uk-margin-small-bottom uk-margin-remove-top">Macronutrition</h3>
+                <div uk-grid>
+                    <div class="uk-width-1-2">
+                        <h3 class="uk-card-title uk-margin-small-bottom uk-margin-remove-top">Macronutrition</h3>
+                    </div>
+                    <div class="uk-width-1-2">
+                        <div *ngIf="updatedTime" class="uk-align-right">
+                            <p>Last updated: {{ updatedTime| date:'short' }}</p>
+                        </div>
+                    </div>
+                </div>
                 <table class="uk-table uk-table-striped uk-margin-remove-top table-bottom-margin">
                     <thead>
                         <tr>

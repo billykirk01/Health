@@ -23,7 +23,8 @@ recent_data = {
     'calories': [],
     'carbohydrates': [],
     'protein': [],
-    'fat': []
+    'fat': [],
+    'updated': datetime.now()
 }
 
 for day in daterange(start_date, end_date):
