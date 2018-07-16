@@ -48,7 +48,7 @@
     <div [ngClass]="{'uk-width-1-2': !onMobile}">
         <div class="uk-margin-small-top" [ngClass]="{'uk-margin-small-right': !onMobile}">
             <div *ngIf="currentDay" class="uk-card uk-card-default uk-card-body uk-card-hover table-top-padding">
-                <div uk-grid class="uk-margin-bottom">
+                <div uk-grid class="header-height-custom" >
                     <div class="uk-width-1-2">
                         <h3 class="uk-card-title uk-margin-small-bottom uk-margin-remove-top">Meals</h3>
                     </div>
@@ -56,15 +56,19 @@
                         <div class="uk-align-right">
                             <ul class="uk-pagination">
                                 <li>
-                                    <a (click)="decrementCurrentDay()">
-                                        <span class="uk-margin-small-right" uk-pagination-previous></span>
-                                    </a>
+                                    <button mat-button mat-icon-button (click)="decrementCurrentDay()">
+                                        <mat-icon>keyboard_arrow_left</mat-icon>
+                                    </button>
                                 </li>
-                                <li>{{ currentDay.date }}</li>
-                                <li>
-                                    <a (click)="incrementCurrentDay()">
-                                        <span class="uk-margin-small-left" uk-pagination-next></span>
-                                    </a>
+                                <li class="date-paginator-width uk-padding-remove-left">
+                                    <div>
+                                        {{ currentDay.date }}
+                                    </div>
+                                </li>
+                                <li class="uk-padding-remove-left">
+                                    <button mat-button mat-icon-button (click)="incrementCurrentDay()">
+                                        <mat-icon>keyboard_arrow_right</mat-icon>
+                                    </button>
                                 </li>
                             </ul>
                         </div>
@@ -208,7 +212,9 @@
             </div>
             <div class="uk-card uk-card-default uk-card-body uk-card-hover uk-margin-small-top weight-graph-small-padding-bottom">
                 <h3 class="uk-card-title uk-margin-bottom uk-margin-remove-top">Weight</h3>
-                <canvas #canvasTwo>{{ chartOne }}</canvas>
+                <div class="graph-height">
+                    <canvas #canvasTwo>{{ chartOne }}</canvas>
+                </div>
             </div>
         </div>
     </div>

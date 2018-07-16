@@ -117,7 +117,7 @@ export class AppComponent {
           },
           legend: {
             display: false
-          }
+          },
         }
       });
 
@@ -162,15 +162,17 @@ export class AppComponent {
               display: true,
               ticks: {
                 // remove label from axis
-                callback: function(value, index, values) {
-                    return null;
+                callback: function (value, index, values) {
+                  return null;
                 }
-            }
+              }
             }]
           },
           legend: {
             display: false
-          }
+          },
+          responsive: true,
+          maintainAspectRatio: false
         }
       });
 

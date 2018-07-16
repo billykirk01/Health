@@ -9,3 +9,18 @@
 .weight-graph-small-padding-bottom{
     padding-bottom: 1em;
 }
+
+.date-paginator-width{
+    display: flex;
+    justify-content:center;
+    align-content:center;
+    flex-direction:column;
+}
+
+.header-height-custom{
+    height: 40px;
+}
+
+.graph-height{
+    height: 200px;
+}
