@@ -21,6 +21,7 @@
     height: 40px;
 }
 
-.graph-height{
-    height: 200px;
+.updated-time-width{
+    width: 170px;
+    text-align: right
 }
