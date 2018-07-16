@@ -117,6 +117,8 @@ export class AppComponent {
           legend: {
             display: false
           },
+          responsive: true,
+          maintainAspectRatio: false
         }
       });
 
@@ -148,11 +150,17 @@ export class AppComponent {
           scales: {
             yAxes: [{
               display: true,
-              position: 'left',
-              beginAtZero: false,
-              suggestedMin: 180,
               gridLines: {
                 display: false
+              },
+              ticks: {
+                userCallback: function (label, index, labels) {
+                  // when the floored value is the same as the value we have a whole number
+                  if (Math.floor(label) === label) {
+                    return label;
+                  }
+
+                },
               }
             }],
             xAxes: [{

@@ -12,7 +12,7 @@
                         </div>
                     </div>
                 </div>
-                <table class="uk-table uk-table-striped uk-margin-remove-top table-bottom-margin">
+                <table class="uk-table uk-table-small uk-table-striped uk-margin-remove-top table-bottom-margin">
                     <thead>
                         <tr>
                             <th>Date</th>
@@ -40,7 +40,9 @@
                         </tr>
                     </tbody>
                 </table>
-                <canvas #canvasOne>{{ chartOne }}</canvas>
+                <div class="macro-graph-height-desktop" [ngClass]="{'graph-height-mobile': onMobile}">
+                    <canvas #canvasOne>{{ chartOne }}</canvas>
+                </div>
             </div>
         </div>
     </div>
@@ -48,29 +50,19 @@
     <div [ngClass]="{'uk-width-1-2': !onMobile}">
         <div class="uk-margin-small-top" [ngClass]="{'uk-margin-small-right': !onMobile}">
             <div *ngIf="currentDay" class="uk-card uk-card-default uk-card-body uk-card-hover table-top-padding">
-                <div uk-grid class="header-height-custom" >
+                <div uk-grid>
                     <div class="uk-width-1-2">
                         <h3 class="uk-card-title uk-margin-small-bottom uk-margin-remove-top">Meals</h3>
                     </div>
-                    <div *ngIf="currentDay" class="uk-width-1-2">
-                        <div class="uk-align-right">
-                            <ul class="uk-pagination">
-                                <li>
-                                    <button mat-button mat-icon-button (click)="decrementCurrentDay()">
-                                        <mat-icon>keyboard_arrow_left</mat-icon>
-                                    </button>
-                                </li>
-                                <li class="date-paginator-width uk-padding-remove-left">
-                                    <div>
-                                        {{ currentDay.date }}
-                                    </div>
-                                </li>
-                                <li class="uk-padding-remove-left">
-                                    <button mat-button mat-icon-button (click)="incrementCurrentDay()">
-                                        <mat-icon>keyboard_arrow_right</mat-icon>
-                                    </button>
-                                </li>
-                            </ul>
+                    <div class="uk-width-1-2">
+                        <div *ngIf="updatedTime" class="uk-align-right updated-time-width">
+                            <button mat-button mat-icon-button (click)="decrementCurrentDay()">
+                                <mat-icon>keyboard_arrow_left</mat-icon>
+                            </button>
+                            {{ currentDay.date }}
+                            <button mat-button mat-icon-button (click)="incrementCurrentDay()">
+                                <mat-icon>keyboard_arrow_right</mat-icon>
+                            </button>
                         </div>
                     </div>
                 </div>
@@ -81,7 +73,7 @@
                         <a *ngIf="currentDay.breakfast.totals.calories != null" class="uk-accordion-title" href="#">Breakfast ({{ currentDay.breakfast.totals.calories }} cal)</a>
                         <div class="uk-accordion-content">
                             <div *ngIf="currentDay">
-                                <table *ngIf="currentDay.breakfast.entries.length > 0" class="uk-table uk-table-striped uk-margin-remove-top">
+                                <table *ngIf="currentDay.breakfast.entries.length > 0" class="uk-table uk-table-small uk-table-striped uk-margin-remove-top">
                                     <thead>
                                         <tr>
                                             <th>Meal</th>
@@ -114,7 +106,7 @@
                         <a *ngIf="currentDay.lunch.totals.calories != null" class="uk-accordion-title" href="#">Lunch ({{ currentDay.lunch.totals.calories }} cal)</a>
                         <div class="uk-accordion-content">
                             <div *ngIf="currentDay">
-                                <table *ngIf="currentDay.lunch.entries.length > 0" class="uk-table uk-table-striped uk-margin-remove-top">
+                                <table *ngIf="currentDay.lunch.entries.length > 0" class="uk-table uk-table-small uk-table-striped uk-margin-remove-top">
                                     <thead>
                                         <tr>
                                             <th>Meal</th>
@@ -147,7 +139,7 @@
                         <a *ngIf="currentDay.dinner.totals.calories != null" class="uk-accordion-title" href="#">Dinner ({{ currentDay.dinner.totals.calories }} cal)</a>
                         <div class="uk-accordion-content">
                             <div *ngIf="currentDay">
-                                <table *ngIf="currentDay.dinner.entries.length > 0" class="uk-table uk-table-striped uk-margin-remove-top">
+                                <table *ngIf="currentDay.dinner.entries.length > 0" class="uk-table uk-table-small uk-table-striped uk-margin-remove-top">
                                     <thead>
                                         <tr>
                                             <th>Meal</th>
@@ -180,7 +172,7 @@
                         <a *ngIf="currentDay.snack.totals.calories != null" class="uk-accordion-title" href="#">Snacks ({{ currentDay.snack.totals.calories }} cal)</a>
                         <div class="uk-accordion-content">
                             <div *ngIf="currentDay">
-                                <table *ngIf="currentDay.snack.entries.length > 0" class="uk-table uk-table-striped uk-margin-remove-top">
+                                <table *ngIf="currentDay.snack.entries.length > 0" class="uk-table uk-table-small uk-table-striped uk-margin-remove-top">
                                     <thead>
                                         <tr>
                                             <th>Meal</th>
@@ -212,7 +204,7 @@
             </div>
             <div class="uk-card uk-card-default uk-card-body uk-card-hover uk-margin-small-top weight-graph-small-padding-bottom">
                 <h3 class="uk-card-title uk-margin-bottom uk-margin-remove-top">Weight</h3>
-                <div>
+                <div class="graph-height-desktop" [ngClass]="{'graph-height-mobile': onMobile}">
                     <canvas #canvasTwo>{{ chartOne }}</canvas>
                 </div>
             </div>

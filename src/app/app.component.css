@@ -1,3 +1,8 @@
+.updated-time-width{
+    width: 170px;
+    text-align: right
+}
+
 .table-top-padding{
     padding-top: 1.5em;
 }
@@ -10,18 +15,14 @@
     padding-bottom: 1em;
 }
 
-.date-paginator-width{
-    display: flex;
-    justify-content:center;
-    align-content:center;
-    flex-direction:column;
+.graph-height-desktop{
+    height: 300px;
 }
 
-.header-height-custom{
-    height: 40px;
+.macro-graph-height-desktop{
+    height: 500px;
 }
 
-.updated-time-width{
-    width: 170px;
-    text-align: right
+.graph-height-mobile{
+    height: 250px;
 }
