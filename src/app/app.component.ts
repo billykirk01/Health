@@ -34,8 +34,7 @@ export class AppComponent {
 
   currentDay: any;
   currentDayIndex: number = 0;
-
-  testIndex: Subject<any>
+  scratchIndex: Subject<any> = new Subject()
 
   updatedTime: any;
 
@@ -121,11 +120,9 @@ export class AppComponent {
         }
       });
 
-      this.testIndex = new Subject()
-
       this.days.subscribe(ary => {
         this.currentDay = ary[0]
-        this.testIndex.subscribe(val => {
+        this.scratchIndex.subscribe(val => {
           this.currentDay = ary[val]
         })
       })
@@ -178,33 +175,22 @@ export class AppComponent {
 
     })
 
-
     this.days = this.db.collection('nutrition', ref => ref.orderBy('date', 'desc').limit(5)).valueChanges()
 
   }
 
   decrementCurrentDay() {
-
+    console.log(this.currentDayIndex)
     if (this.currentDayIndex < 4) {
       this.currentDayIndex = this.currentDayIndex + 1
-      console.log(this.currentDayIndex)
-      this.testIndex.next(this.currentDayIndex)
+      this.scratchIndex.next(this.currentDayIndex)
     }
   }
 
   incrementCurrentDay() {
-    console.log(this.currentDayIndex)
     if (this.currentDayIndex > 0) {
       this.currentDayIndex = this.currentDayIndex - 1
-      this.testIndex.next(this.currentDayIndex)
+      this.scratchIndex.next(this.currentDayIndex)
     }
   }
-}
-
-export interface Day {
-  date: string;
-}
-
-export interface lastSeven {
-  calories: [number]
 }
