@@ -55,8 +55,7 @@ export class AppComponent {
     this.recentDoc = this.db.doc<any>('recent/totals');
     this.recent = this.recentDoc.valueChanges();
     this.recent.subscribe(ary => {
-      // console.log(ary.updated)
-      this.updatedTime = new Date(ary.updated.seconds * 1000)
+      this.updatedTime = new Date((ary.updated.seconds + 18000) * 1000)
       this.chartOne = new Chart(this.canvasOne.nativeElement.getContext('2d'), {
         type: 'bar',
         data: {
