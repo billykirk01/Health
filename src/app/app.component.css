@@ -7,6 +7,10 @@
     padding-top: 1.5em;
 }
 
+.meals-header-top-padding{
+    padding-top: 5px;
+}
+
 .table-bottom-margin{
     margin-bottom: 2em;
 }
