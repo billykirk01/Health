@@ -72,7 +72,7 @@ export class AppComponent {
             yAxisID: 'y-axis-1',
             data: ary.calories.slice(-7, -1)
           }, {
-            label: 'Carbohydrates',
+            label: 'Carbohydrates (g)',
             backgroundColor: 'rgba(54, 162, 235, 0.2)',
             borderColor: 'rgba(54, 162, 235, 1)',
             borderWidth: 1,
@@ -80,7 +80,7 @@ export class AppComponent {
             yAxisID: 'y-axis-2',
             data: ary.carbohydrates.slice(-7, -1)
           }, {
-            label: 'Protein',
+            label: 'Protein (g)',
             backgroundColor: 'rgba(88, 214, 141, 0.2)',
             borderColor: 'rgba(88, 214, 141, 1)',
             borderWidth: 1,
@@ -89,7 +89,7 @@ export class AppComponent {
             data: ary.protein.slice(-7, -1)
           },
           {
-            label: 'Fat',
+            label: 'Fat (g)',
             backgroundColor: 'rgba(255, 206, 86, 0.2)',
             borderColor: 'rgba(255, 206, 86, 1)',
             borderWidth: 1,
@@ -119,7 +119,8 @@ export class AppComponent {
             }]
           },
           legend: {
-            display: false
+            display: true,
+            position: 'bottom'
           },
           responsive: true,
           maintainAspectRatio: false
@@ -160,7 +161,8 @@ export class AppComponent {
             }]
           },
           legend: {
-            display: false
+            display: true,
+            position: 'bottom'
           },
           responsive: true,
           maintainAspectRatio: false

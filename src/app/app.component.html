@@ -17,9 +17,9 @@
                         <tr>
                             <th>Date</th>
                             <th *ngIf="!onMobile">Calories</th>
-                            <th *ngIf="!onMobile">Carbs</th>
-                            <th *ngIf="!onMobile">Protein</th>
-                            <th *ngIf="!onMobile">Fat</th>
+                            <th *ngIf="!onMobile">Carbs (g)</th>
+                            <th *ngIf="!onMobile">Protein (g)</th>
+                            <th *ngIf="!onMobile">Fat (g)</th>
                             <th *ngIf="onMobile">Cal</th>
                             <th *ngIf="onMobile">Carb</th>
                             <th *ngIf="onMobile">Prot</th>
@@ -39,17 +39,31 @@
                             <td *ngIf="day.totals.fat == null">0</td>
                         </tr>
                         <tr>
-                            <td><b>Average</b></td>
-                            <td *ngIf="recentAverages"><b>{{ recentAverages.calories }}</b></td>
-                            <td *ngIf="recentAverages"><b>{{ recentAverages.carbohydrates }}</b></td>
-                            <td *ngIf="recentAverages"><b>{{ recentAverages.protein }}</b></td>
-                            <td *ngIf="recentAverages"><b>{{ recentAverages.fat }}</b></td>
+                            <td>
+                                <b>Average</b>
+                            </td>
+                            <td *ngIf="recentAverages">
+                                <b>{{ recentAverages.calories }}</b>
+                            </td>
+                            <td *ngIf="recentAverages">
+                                <b>{{ recentAverages.carbohydrates }}</b>
+                            </td>
+                            <td *ngIf="recentAverages">
+                                <b>{{ recentAverages.protein }}</b>
+                            </td>
+                            <td *ngIf="recentAverages">
+                                <b>{{ recentAverages.fat }}</b>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
                 <ul uk-tab>
-                    <li class="uk-active" (click)="setWeekView()"><a>Week</a></li>
-                    <li (click)="setMonthView()"><a href="">Month</a></li>
+                    <li class="uk-active" (click)="setWeekView()">
+                        <a>Week</a>
+                    </li>
+                    <li (click)="setMonthView()">
+                        <a href="">Month</a>
+                    </li>
                 </ul>
                 <div class="macro-graph-height-desktop" [ngClass]="{'graph-height-mobile': onMobile, 'hide': !weekView}">
                     <canvas #canvasOne>{{ chartOne }}</canvas>
@@ -91,10 +105,14 @@
                                     <thead>
                                         <tr>
                                             <th>Meal</th>
-                                            <th>Cal</th>
-                                            <th>Carb</th>
-                                            <th>Prot</th>
-                                            <th>Fat</th>
+                                            <th *ngIf="!onMobile">Calories</th>
+                                            <th *ngIf="!onMobile">Carbs (g)</th>
+                                            <th *ngIf="!onMobile">Protein (g)</th>
+                                            <th *ngIf="!onMobile">Fat (g)</th>
+                                            <th *ngIf="onMobile">Cal</th>
+                                            <th *ngIf="onMobile">Carb</th>
+                                            <th *ngIf="onMobile">Prot</th>
+                                            <th *ngIf="onMobile">Fat</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -124,10 +142,14 @@
                                     <thead>
                                         <tr>
                                             <th>Meal</th>
-                                            <th>Cal</th>
-                                            <th>Carb</th>
-                                            <th>Prot</th>
-                                            <th>Fat</th>
+                                            <th *ngIf="!onMobile">Calories</th>
+                                            <th *ngIf="!onMobile">Carbs (g)</th>
+                                            <th *ngIf="!onMobile">Protein (g)</th>
+                                            <th *ngIf="!onMobile">Fat (g)</th>
+                                            <th *ngIf="onMobile">Cal</th>
+                                            <th *ngIf="onMobile">Carb</th>
+                                            <th *ngIf="onMobile">Prot</th>
+                                            <th *ngIf="onMobile">Fat</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -157,10 +179,14 @@
                                     <thead>
                                         <tr>
                                             <th>Meal</th>
-                                            <th>Cal</th>
-                                            <th>Carb</th>
-                                            <th>Prot</th>
-                                            <th>Fat</th>
+                                            <th *ngIf="!onMobile">Calories</th>
+                            <th *ngIf="!onMobile">Carbs (g)</th>
+                            <th *ngIf="!onMobile">Protein (g)</th>
+                            <th *ngIf="!onMobile">Fat (g)</th>
+                            <th *ngIf="onMobile">Cal</th>
+                            <th *ngIf="onMobile">Carb</th>
+                            <th *ngIf="onMobile">Prot</th>
+                            <th *ngIf="onMobile">Fat</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -190,10 +216,14 @@
                                     <thead>
                                         <tr>
                                             <th>Meal</th>
-                                            <th>Cal</th>
-                                            <th>Carb</th>
-                                            <th>Prot</th>
-                                            <th>Fat</th>
+                                            <th *ngIf="!onMobile">Calories</th>
+                            <th *ngIf="!onMobile">Carbs (g)</th>
+                            <th *ngIf="!onMobile">Protein (g)</th>
+                            <th *ngIf="!onMobile">Fat (g)</th>
+                            <th *ngIf="onMobile">Cal</th>
+                            <th *ngIf="onMobile">Carb</th>
+                            <th *ngIf="onMobile">Prot</th>
+                            <th *ngIf="onMobile">Fat</th>
                                         </tr>
                                     </thead>
                                     <tbody>
