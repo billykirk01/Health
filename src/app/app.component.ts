@@ -4,8 +4,6 @@ import { Chart } from 'chart.js';
 import { AngularFirestore, AngularFirestoreDocument } from 'angularfire2/firestore';
 import { Observable, Subject } from 'rxjs';
 
-import { last } from 'rxjs/operators';
-
 
 @Component({
   selector: 'app-root',
@@ -22,7 +20,11 @@ export class AppComponent {
   @ViewChild('canvasTwo') canvasTwo: ElementRef;
   chartTwo = [];
 
+  @ViewChild('canvasThree') canvasThree: ElementRef;
+  chartThree = [];
+
   onMobile: boolean
+  weekView: boolean = true
 
   days: Observable<any[]>;
 
@@ -35,6 +37,7 @@ export class AppComponent {
   currentDay: any;
   currentDayIndex: number = 0;
   scratchIndex: Subject<any> = new Subject()
+  recentAverages: any;
 
   updatedTime: any;
 
@@ -54,11 +57,12 @@ export class AppComponent {
     this.recentDoc = this.db.doc<any>('recent/totals');
     this.recent = this.recentDoc.valueChanges();
     this.recent.subscribe(ary => {
+      this.recentAverages = ary.averages
       this.updatedTime = new Date((ary.updated.seconds + 18000) * 1000)
       this.chartOne = new Chart(this.canvasOne.nativeElement.getContext('2d'), {
         type: 'bar',
         data: {
-          labels: ary.dates,
+          labels: ary.dates.slice(-7, -1),
           datasets: [{
             label: 'Calories',
             backgroundColor: 'rgba(153, 102, 255, 0.2)',
@@ -66,7 +70,7 @@ export class AppComponent {
             borderWidth: 1,
             stack: 'Stack 0',
             yAxisID: 'y-axis-1',
-            data: ary.calories
+            data: ary.calories.slice(-7, -1)
           }, {
             label: 'Carbohydrates',
             backgroundColor: 'rgba(54, 162, 235, 0.2)',
@@ -74,7 +78,7 @@ export class AppComponent {
             borderWidth: 1,
             stack: 'Stack 1',
             yAxisID: 'y-axis-2',
-            data: ary.carbohydrates
+            data: ary.carbohydrates.slice(-7, -1)
           }, {
             label: 'Protein',
             backgroundColor: 'rgba(88, 214, 141, 0.2)',
@@ -82,7 +86,7 @@ export class AppComponent {
             borderWidth: 1,
             stack: 'Stack 1',
             yAxisID: 'y-axis-2',
-            data: ary.protein
+            data: ary.protein.slice(-7, -1)
           },
           {
             label: 'Fat',
@@ -91,7 +95,7 @@ export class AppComponent {
             borderWidth: 1,
             stack: 'Stack 1',
             yAxisID: 'y-axis-2',
-            data: ary.fat
+            data: ary.fat.slice(-7, -1)
           }
           ]
         },
@@ -122,6 +126,47 @@ export class AppComponent {
         }
       });
 
+      this.chartTwo = new Chart(this.canvasTwo.nativeElement.getContext('2d'), {
+        type: 'bar',
+        data: {
+          labels: ary.dates,
+          datasets: [{
+            label: 'Calories',
+            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+            borderColor: 'rgba(153, 102, 255, 1)',
+            borderWidth: 1,
+            data: ary.calories
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              id: 'y-axis-1',
+              display: true,
+              position: 'left',
+              beginAtZero: false,
+              gridLines: {
+                display: false
+              }
+            }],
+            xAxes: [{
+              display: true,
+              ticks: {
+                // remove label from axis
+                callback: function (value, index, values) {
+                  return null;
+                }
+              }
+            }]
+          },
+          legend: {
+            display: false
+          },
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+
       this.days.subscribe(ary => {
         this.currentDay = ary[0]
         this.scratchIndex.subscribe(val => {
@@ -134,7 +179,7 @@ export class AppComponent {
     this.weightDoc = this.db.doc<any>('weight/totals');
     this.weight = this.weightDoc.valueChanges();
     this.weight.subscribe(ary => {
-      this.chartOne = new Chart(this.canvasTwo.nativeElement.getContext('2d'), {
+      this.chartThree = new Chart(this.canvasThree.nativeElement.getContext('2d'), {
         type: 'line',
         data: {
           labels: ary.dates,
@@ -183,7 +228,7 @@ export class AppComponent {
 
     })
 
-    this.days = this.db.collection('nutrition', ref => ref.orderBy('date', 'desc').limit(5)).valueChanges()
+    this.days = this.db.collection('nutrition', ref => ref.orderBy('timestamp', 'desc').limit(7)).valueChanges()
 
   }
 
@@ -200,5 +245,13 @@ export class AppComponent {
       this.currentDayIndex = this.currentDayIndex - 1
       this.scratchIndex.next(this.currentDayIndex)
     }
+  }
+
+  setWeekView() {
+    this.weekView = true
+  }
+
+  setMonthView() {
+    this.weekView = false
   }
 }

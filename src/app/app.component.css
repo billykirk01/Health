@@ -26,3 +26,7 @@
 .graph-height-mobile{
     height: 250px;
 }
+
+.hide{
+    display: none;
+}

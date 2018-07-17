@@ -3,6 +3,7 @@ from datetime import datetime, date, timedelta
 import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
+import math
 
 import myfitnesspal
 
@@ -16,7 +17,8 @@ def daterange(start_date, end_date):
     for n in range(int ((end_date - start_date).days)):
         yield start_date + timedelta(n)
 
-start_date = date.today() - timedelta(days=4)
+recent_start_date = date.today() - timedelta(days=29)
+start_date = date.today() - timedelta(days=6)
 end_date = date.today() + timedelta(days=1)
 recent_data = {
     'dates': [],
@@ -24,16 +26,18 @@ recent_data = {
     'carbohydrates': [],
     'protein': [],
     'fat': [],
-    'updated': datetime.now()
+    'updated': datetime.now(),
+}
+
+recent_totals = {
+    'calories': 0,
+    'carbohydrates': 0,
+    'protein': 0,
+    'fat': 0
 }
 
 for day in daterange(start_date, end_date):
     day_data = client.get_date(day)
-    recent_data['dates'].append(day_data.date.strftime('%b %e'))
-    recent_data['calories'].append(day_data.totals.get('calories', 0))
-    recent_data['carbohydrates'].append(day_data.totals.get('carbohydrates', 0))
-    recent_data['protein'].append(day_data.totals.get('protein', 0))
-    recent_data['fat'].append(day_data.totals.get('fat', 0))
 
     breakfastEntries = []
 
@@ -72,6 +76,11 @@ for day in daterange(start_date, end_date):
         }
         snackEntries.append(data)
 
+    recent_totals['calories'] = recent_totals['calories'] + day_data.totals.get('calories', 0)
+    recent_totals['carbohydrates'] = recent_totals['carbohydrates'] + day_data.totals.get('carbohydrates', 0)
+    recent_totals['protein'] = recent_totals['protein'] + day_data.totals.get('protein', 0)
+    recent_totals['fat'] = recent_totals['fat'] + day_data.totals.get('fat', 0)
+
     data = {
         'timestamp': datetime.combine(day_data.date, datetime.min.time()),
         'date': day_data.date.strftime('%b %e'),
@@ -95,7 +104,21 @@ for day in daterange(start_date, end_date):
     }
 
     db.collection('nutrition').document(day_data.date.strftime('%b%e%y')).set(data)
-   
+
+for day in daterange(recent_start_date, end_date):
+    day_data = client.get_date(day)
+    recent_data['dates'].append(day_data.date.strftime('%b %e'))
+    recent_data['calories'].append(day_data.totals.get('calories', 0))
+    recent_data['carbohydrates'].append(day_data.totals.get('carbohydrates', 0))
+    recent_data['protein'].append(day_data.totals.get('protein', 0))
+    recent_data['fat'].append(day_data.totals.get('fat', 0))
+
+recent_totals['calories'] = math.trunc(recent_totals['calories']/7)
+recent_totals['carbohydrates'] = math.trunc(recent_totals['carbohydrates']/7)
+recent_totals['protein'] = math.trunc(recent_totals['protein']/7)
+recent_totals['fat'] = math.trunc(recent_totals['fat']/7)
+
+recent_data['averages'] = recent_totals
 
 db.collection('recent').document('totals').set(recent_data)
 
