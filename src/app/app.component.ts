@@ -24,6 +24,7 @@ export class AppComponent {
   chartThree = [];
 
   onMobile: boolean
+  finishedLoading: boolean = false
   weekView: boolean = true
 
   days: Observable<any[]>;
@@ -227,6 +228,8 @@ export class AppComponent {
           maintainAspectRatio: false
         }
       });
+
+      this.finishedLoading = true
 
     })
 
